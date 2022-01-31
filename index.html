@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h2 id="mainTitle">Title</h2>
+        <button id="addBoard">+</button>
+        <ul id="listUsers"></ul>
+    </header>
+    
+    <ul id="listBoards"></ul>
+
+
+    <div class="modalTask">
+        <button class="closeModal">x</button>
+        <div class="container">
+            <div>
+                <label for="titleTaskNew">Title:</label> 
+                <input type="text" id="titleTaskNew" maxlength="20">
+            </div>
+            <div>
+                <label for="dateTaskNew">Expired date:</label>
+                <input type="date" id="dateTaskNew">
+            </div>
+            <div>
+                <label id="tagTaskNew">Tag:
+                    
+                </label>
+            </div>
+            <div>
+                <label for="userTaskNew">
+                  User to assign:  
+                </label>
+                <select name="" id="userTaskNew">
+
+                </select> 
+            </div>
+            <div>
+                <label for="descriptionTaskNew">Description:</label>
+                <textarea name="" id="descriptionTaskNew" maxlength="2000"></textarea>
+            </div>
+            <button id="createTask">Create</button>
+                
+        </div>
+    </div>
+
+    <div class="modalUserInfo">
+        <button class="closeModalInfo">x</button>
+        <div class="container">
+            <span>Title:</span><span id="taskInfoTitle"></span>
+            <br>
+            <span>Expired date:</span><span id="taskInfoDate"></span>
+            <br>
+            <span>Tags:</span><span id="taskInfoTags"></span>
+           <br>
+           <span>User to assign: </span><span id="taskInfoUser"></span>
+            <br>
+            <span>Description:</span><span id="taskInfoDescription"></span>
+        </div>
+    </div>
+
+    <div class="modalUsers">
+        <button class="closeModal">x</button>
+        <div class="container">
+            <ul id="listModalUsers"></ul>
+            <button id='addUser' onclick="showHero()">Add user</button> 
+        </div>
+    </div>
+
+    <div class="modalMenuBoard">
+        <button class="closeModal">x</button>
+        <div class="container">
+            <input type="color" id="setColor">
+            <button id='saveColor'>Ok</button> 
+        </div>
+    </div>
+
+    <div class="modalBoard">
+        <button class="closeModal">x</button>
+        <div class="container">
+            <input type="text" id="inputBoard" placeholder="Введите имя доски">
+        <button id="remaneTitleBtn" onclick="nameBoard()">Назначить новое имя</button> 
+        </div>
+    </div>
+
+    <div class="modal">
+        <button class="closeModal">x</button>
+        <div class="container">
+            <input type="text" id="inputTitle" placeholder="Введите новое имя">
+        <button id="remaneTitleBtn" onclick="renameTitle()">Назначить новое имя</button> 
+        </div>
+    </div>
+    
+    <script src="js/script.js"></script>
+</body>
+</html>
