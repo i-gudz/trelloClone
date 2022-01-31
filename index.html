@@ -13,8 +13,34 @@
         <button id="addBoard">+</button>
         <ul id="listUsers"></ul>
     </header>
-    
     <ul id="listBoards"></ul>
+
+    <div class="menu">
+        <button id="btnMenuTags">menu tags</button>
+        <button id="selectBg">select background color</button>
+        <h5>Log:</h5>
+        <div id="listLog"></div>
+    </div>
+
+    <div class="modalTags">
+        <button class="closeModal">x</button>
+        <div class="container">
+            <ul id="listModalTags"></ul>
+            <div>
+                Choose new tag: 
+                <input type="color" id="setTagColor">
+                <button id="addTag">Add tag</button> 
+            </div>
+        </div>
+    </div>
+
+    <div class="modalSetBgColor">
+        <button class="closeModal">x</button>
+        <div class="container">
+            <input type="color" id="setBgColor">
+            <button id='saveBgColor'>Ok</button> 
+        </div>
+    </div>
 
 
     <div class="modalTask">

@@ -6,6 +6,8 @@ let arrTitle = 'Title'
 mainTitle.addEventListener('click', () => {
     modal.style.display = 'flex'
 })
+let arrLog = []
+let listLog = document.querySelector('#listLog')
 
 const renameTitle = () => {
     if (inputTitle.value.length > 3) {
@@ -15,6 +17,12 @@ const renameTitle = () => {
         localStorage.removeItem('arrTitle')
         localStorage.setItem("arrTitle", arrTitle)
         mainTitle.textContent = localStorage.getItem('arrTitle')
+        let itemLog = document.createElement('p')
+        itemLog.innerHTML =`Главное имя было поменяно на ${inputTitle.value}` 
+        arrLog.unshift(itemLog.innerHTML)
+        localStorage.setItem('arrLog', JSON.stringify(arrLog))
+        arrLog = JSON.parse(localStorage.getItem('arrLog'))
+        listLog.prepend(itemLog)
         inputTitle.value = ''
     } else {
         inputTitle.value = 'Минимальное название меньше 3 символов'
@@ -79,6 +87,12 @@ async function showHero() {
         itemUser.classList.add('user')
         itemUser.innerHTML = `<img src='${nameUser.picture}' alt='404'/>`
         listUsers.appendChild(itemUser)
+        let itemLog = document.createElement('p')
+        itemLog.innerHTML =`Добавлен пользователь ${nameUser.firstName} ${nameUser.lastName}` 
+        arrLog.unshift(itemLog.innerHTML)
+        localStorage.setItem('arrLog', JSON.stringify(arrLog))
+        arrLog = JSON.parse(localStorage.getItem('arrLog'))
+        listLog.prepend(itemLog)
     }
 }
 
@@ -142,8 +156,15 @@ delUser.forEach((element, i) => {
     element.addEventListener('click', () => {
         userInfo[i].remove()
         user[i].remove()
+        let itemLog = document.createElement('p')
+        itemLog.innerHTML =`Удалён пользователь ${userInfo[i].innerText}` 
+        arrLog.unshift(itemLog.innerHTML)
+        localStorage.setItem('arrLog', JSON.stringify(arrLog))
+        arrLog = JSON.parse(localStorage.getItem('arrLog'))
+        listLog.prepend(itemLog)
         arrUsers[i] = "n"
         localStorage.setItem("arrUsers", JSON.stringify(arrUsers))
+        
     })
 })
 
@@ -193,6 +214,12 @@ const nameBoard = () => {
             modal.style.display = 'none'
             arrBoards.push(nameBoard)
             localStorage.setItem("arrBoards", JSON.stringify(arrBoards))
+            let itemLog = document.createElement('p')
+        itemLog.innerHTML =`Добавлена новая борда ${inputBoard.value}` 
+        arrLog.unshift(itemLog.innerHTML)
+        localStorage.setItem('arrLog', JSON.stringify(arrLog))
+        arrLog = JSON.parse(localStorage.getItem('arrLog'))
+        listLog.prepend(itemLog)
             inputBoard.value = ''
             let item = document.createElement('li')
             item.style.backgroundColor = nameBoard.bg
@@ -202,6 +229,7 @@ const nameBoard = () => {
                         <button id='deleteBoard'>x</button>
                         <button id='addTask'>Add task</>`
                 listBoards.appendChild(item)
+                
             }
         } else {
             alert('max boards 6')
@@ -257,6 +285,12 @@ menuBoard.forEach((e, i) => {
             arrBoards[i].bg = colorB.value
             board[i].style.backgroundColor = colorB.value
             localStorage.setItem("arrBoards", JSON.stringify(arrBoards))
+            let itemLog = document.createElement('p')
+        itemLog.innerHTML =`Цвет ${i+1} борды изменён на ${colorB.value}` 
+        arrLog.unshift(itemLog.innerHTML)
+        localStorage.setItem('arrLog', JSON.stringify(arrLog))
+        arrLog = JSON.parse(localStorage.getItem('arrLog'))
+        listLog.prepend(itemLog)
         })
     })
 
@@ -268,6 +302,12 @@ let deleteBoard = document.querySelectorAll('#deleteBoard')
 deleteBoard.forEach((e, i) => {
     e.addEventListener('click', () => {
         board[i + 3].remove()
+        let itemLog = document.createElement('p')
+        itemLog.innerHTML =`Удалена борда` 
+        arrLog.unshift(itemLog.innerHTML)
+        localStorage.setItem('arrLog', JSON.stringify(arrLog))
+        arrLog = JSON.parse(localStorage.getItem('arrLog'))
+        listLog.prepend(itemLog)
         arrBoards.splice(arrBoards.indexOf(arrBoards[i + 3]), 1)
         localStorage.setItem("arrBoards", JSON.stringify(arrBoards))
     })
@@ -300,21 +340,55 @@ let arrTags = [
     'yellow'
 ]
 
-let titleTaskNew = document.querySelector('#titleTaskNew')
-let dateTaskNew = document.querySelector('#dateTaskNew')
+let setTagColor = document.querySelector('#setTagColor')
+let addTag = document.querySelector('#addTag')
 
+addTag.addEventListener('click',()=>{
+    if(arrTags.length<10){
+        arrTags.push(setTagColor.value)
+        localStorage.setItem('arrTags', JSON.stringify(arrTags))
+        arrTags = JSON.parse(localStorage.getItem('arrTags'))
+        let itemList = document.createElement('li')
+        itemList.innerHTML=`<div style="background-color:${setTagColor.value}"></div>
+        <button id='delTag'>x</button>`
+        listModalTags.appendChild(itemList)
+        let itemLog = document.createElement('p')
+        itemLog.innerHTML =`Добавлен новый тег` 
+        arrLog.unshift(itemLog.innerHTML)
+        localStorage.setItem('arrLog', JSON.stringify(arrLog))
+        arrLog = JSON.parse(localStorage.getItem('arrLog'))
+        listLog.prepend(itemLog)
+    }else{
+        alert('max tags 10')
+    }
+})
 let listTag = document.querySelector('#tagTaskNew')
+let listModalTags = document.querySelector('#listModalTags')
+let btnMenuTags = document.querySelector('#btnMenuTags')
+let modalTags = document.querySelector('.modalTags')
+btnMenuTags.addEventListener('click', ()=>{
+    modalTags.style.display='flex'
+})
+if (JSON.parse(localStorage.getItem('arrTags')) != null) {
+    arrTags = JSON.parse(localStorage.getItem('arrTags'))
+}
 
 arrTags.forEach((e, i) => {
     let item = document.createElement('label')
     item.style.backgroundColor = e
     item.setAttribute('for', e)
     item.innerHTML = `
-    ${e}:
     <input type="checkbox" class="tagNew" id="${e}" onclick="">
     `
     listTag.appendChild(item)
+    let itemList = document.createElement('li')
+    itemList.innerHTML=`<div style="background-color:${e}"></div>
+    <button id='delTag'>x</button>`
+    listModalTags.appendChild(itemList)
 })
+
+
+
 let tag = document.querySelectorAll('.tagNew')
 let counTag = 0
 let selectTags = []
@@ -340,6 +414,8 @@ tag.forEach(e => {
         }
     })
 })
+let titleTaskNew = document.querySelector('#titleTaskNew')
+let dateTaskNew = document.querySelector('#dateTaskNew')
 
 let userTask = document.querySelector('#userTaskNew')
 
@@ -387,6 +463,12 @@ createTask.addEventListener('click', () => {
             <div class="tagTask" id="${taskObj.tags[1] == undefined? '':taskObj.tags[1]}" style="background-color: ${taskObj.tags[1] == undefined? '':taskObj.tags[1]};"></div>
             <img src="${taskObj.user[1]}" alt='404'>`
         board[numBoard].appendChild(item)
+        let itemLog = document.createElement('p')
+        itemLog.innerHTML =`На ${numBoard+1} борду добавлена новая задача` 
+        arrLog.unshift(itemLog.innerHTML)
+        localStorage.setItem('arrLog', JSON.stringify(arrLog))
+        arrLog = JSON.parse(localStorage.getItem('arrLog'))
+        listLog.prepend(itemLog)
     }
 })
 
@@ -448,4 +530,36 @@ closeModalInfo.addEventListener('click', () => {
     infoTags.textContent = ''
     infoUser.innerHTML = ''
     infoDescription.textContent = ''
+})
+let modalSetBgColor = document.querySelector('.modalSetBgColor')
+let selectBg = document.querySelector('#selectBg')
+selectBg.addEventListener('click', ()=>{
+    modalSetBgColor.style.display = 'flex'
+})
+let body = document.querySelector('body')
+let setBgColor = document.querySelector('#setBgColor')
+let saveBgColor = document.querySelector('#saveBgColor')
+let bodyBackground 
+saveBgColor.addEventListener('click', () => {
+    body.style.backgroundColor = setBgColor.value
+    bodyBackground = setBgColor.value
+    localStorage.setItem("bodyBackground", bodyBackground)
+    let itemLog = document.createElement('p')
+        itemLog.innerHTML =`Цвет страницы изменён на ${setBgColor.value}` 
+        arrLog.unshift(itemLog.innerHTML)
+        localStorage.setItem('arrLog', JSON.stringify(arrLog))
+        arrLog = JSON.parse(localStorage.getItem('arrLog'))
+        listLog.prepend(itemLog)
+})
+
+body.style.backgroundColor = localStorage.getItem('bodyBackground')
+
+if (JSON.parse(localStorage.getItem('arrLog')) != null) {
+    arrLog = JSON.parse(localStorage.getItem('arrLog'))
+}
+
+arrLog.forEach((e, i) => {
+    let item = document.createElement('p')
+    item.innerHTML = `${e}`
+    listLog.appendChild(item)
 })
